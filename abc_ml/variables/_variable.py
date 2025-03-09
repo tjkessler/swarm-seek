@@ -1,7 +1,3 @@
-from random import randint
-from typing import Iterable
-
-
 class Variable:
     """
     Base class for variables that can generate random values and undergo
@@ -60,37 +56,3 @@ class Variable:
         """
 
         raise NotImplementedError("Base class.")
-
-
-def apply_mutation(
-        variables: Iterable[Variable],
-        values: Iterable[any]
-     ) -> Iterable[any]:
-    """
-    Applies mutation to a randomly selected value from the given list of
-    values, using the corresponding variable's mutation method.
-
-    Parameters
-    ----------
-    variables : Iterable[Variable]
-        A collection of Variable objects that define how each corresponding
-        value in 'values' can be mutated.
-    values : Iterable[np.ndarray]
-        A collection of values to which mutation may be applied. The length
-        and order should match those of 'variables'.
-
-    Returns
-    -------
-    Iterable[np.ndarray]
-        A new list of values where one value has been potentially mutated.
-
-    Notes
-    -----
-    This function makes a copy of the input 'values' list before applying the
-    mutation, ensuring that the original list remains unchanged.
-    """
-
-    to_change = randint(0, len(values) - 1)
-    new_values = values[:]
-    new_values[to_change] = variables[to_change].mutate(new_values[to_change])
-    return new_values
