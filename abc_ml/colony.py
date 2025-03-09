@@ -1,7 +1,7 @@
 from typing import Callable, Dict, Iterable, List, Optional
 
 from .bee import Bee
-from .variables._variable import Variable
+from .variables import Variable
 from .utils import choose_bee_proportional, evaluate_new_employer, \
     evaluate_new_onlooker, evaluate_new_position
 

@@ -3,7 +3,7 @@ from typing import Callable, Dict, Iterable
 
 import ray
 
-from .variables._variable import Variable
+from .variables import Variable
 from .bee import Bee
 
 
