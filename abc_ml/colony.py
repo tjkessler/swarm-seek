@@ -22,8 +22,6 @@ class Colony:
     obj_fn : Callable[[Iterable[any], any], any]
         Function to evaluate the fitness of a solution. It takes an iterable
         of variable values and optional additional arguments.
-    obj_fn_args : Dict[str, any]
-        Additional arguments for the objective function.
     stay_limit : int
         Number of times a bee can search neighboring solutions for a better
         solution before abandoning the area.
@@ -45,8 +43,7 @@ class Colony:
     """
 
     def __init__(self, n_employers: int, variables: Iterable[Variable],
-                 objective_fn: Callable[[Iterable[any], any], any],
-                 objective_fn_args: Dict[str, any] = {},
+                 objective_fn: Callable[[Iterable[any], any], float],
                  stay_limit: Optional[int | None] = None):
         """
         Initialize the Colony object.
@@ -59,11 +56,11 @@ class Colony:
         variables : Iterable[Variable]
             List or iterable of `Variable` objects representing the problem's
             decision variables.
-        objective_fn : Callable[[Iterable[any], any], any]
+        objective_fn : Callable[[Iterable[any], any], float]
             Function to evaluate the fitness of a solution. It takes an
             iterable of variable values and optional additional arguments.
-        objective_fn_args : Dict[str, any], default={}
-            Additional arguments for the objective function.
+            The function should return a float representing the loss of a
+            given solution. This value is minimized during ABC optimization.
         stay_limit : Optional[int], default=None
             Number of times a bee can search neighboring solutions for a better
             solution before abandoning the area; defaults to
@@ -73,7 +70,6 @@ class Colony:
         self.n_employers = n_employers
         self.variables = variables
         self.obj_fn = objective_fn
-        self.obj_fn_args = objective_fn_args
         self.stay_limit = len(variables) * n_employers \
             if stay_limit is None else stay_limit
         self.bees: List[Bee] = []
@@ -103,16 +99,22 @@ class Colony:
 
         return sum(b.fitness for b in self.bees) / len(self.bees)
 
-    def initialize(self) -> None:
+    def initialize(self, objective_fn_args: Dict[str, any] = {}) -> None:
         """
         Initializes the colony by creating a specified number of employer and
         onlooker bees with random or mutated initial positions.
+
+        Parameters
+        ----------
+        objective_fn_args : Dict[str, any], default={}
+            Additional arguments for the objective function.
         """
 
         self.bees = [evaluate_new_employer(
             self.variables,
             self.stay_limit,
-            self.obj_fn, self.obj_fn_args
+            self.obj_fn,
+            objective_fn_args
         ) for _ in range(self.n_employers)]
         for _ in range(self.n_employers):
             chosen_bee = choose_bee_proportional(self.bees)
@@ -120,14 +122,20 @@ class Colony:
                 chosen_bee,
                 self.variables,
                 self.stay_limit,
-                self.obj_fn, self.obj_fn_args
+                self.obj_fn,
+                objective_fn_args
             ))
         self._update_best()
 
-    def search(self) -> None:
+    def search(self, objective_fn_args: Dict[str, any] = {}) -> None:
         """
         Performs one iteration of the ABC algorithm by updating the positions
         and abandoning strategies of all bees in the colony.
+
+        Parameters
+        ----------
+        objective_fn_args : Dict[str, any], default={}
+            Additional arguments for the objective function.
         """
 
         next_generation = []
@@ -137,7 +145,8 @@ class Colony:
                     next_generation.append(evaluate_new_employer(
                         self.variables,
                         self.stay_limit,
-                        self.obj_fn, self.obj_fn_args
+                        self.obj_fn,
+                        objective_fn_args
                     ))
                     continue
                 chosen_bee = choose_bee_proportional(self.bees)
@@ -145,14 +154,16 @@ class Colony:
                     chosen_bee,
                     self.variables,
                     self.stay_limit,
-                    self.obj_fn, self.obj_fn_args
+                    self.obj_fn,
+                    objective_fn_args
                 ))
                 continue
             next_generation.append(evaluate_new_position(
                 bee,
                 self.variables,
                 self.stay_limit,
-                self.obj_fn, self.obj_fn_args
+                self.obj_fn,
+                objective_fn_args
             ))
         self.bees = next_generation
         self._update_best()
