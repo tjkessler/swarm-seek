@@ -1,5 +1,7 @@
 from typing import List
 
+import ray
+
 from abc_ml import Colony
 from abc_ml.bee import Bee
 from abc_ml.ray import RayColony
@@ -97,6 +99,7 @@ def test_ray_colony() -> None:
     def _objective_fn(values: List[float]) -> float:
         return sum(values)
 
+    ray.init()
     colony = RayColony(N_EMPLOYERS, variables, _objective_fn)
     colony.initialize()
     assert len(colony.bees) == 2 * N_EMPLOYERS
@@ -104,6 +107,7 @@ def test_ray_colony() -> None:
     assert len(colony.bees[0].values) == N_VARIABLES
     for _ in range(100):
         colony.search()
+    ray.shutdown()
     assert len(colony.bees) == 2 * N_EMPLOYERS
     assert len([b for b in colony.bees if b.is_employer]) == N_EMPLOYERS
     assert len(colony.bees[0].values) == N_VARIABLES
