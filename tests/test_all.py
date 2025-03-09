@@ -2,6 +2,7 @@ from typing import List
 
 from abc_ml import Colony
 from abc_ml.bee import Bee
+from abc_ml.ray import RayColony
 from abc_ml.variables import Float, Integer
 
 
@@ -74,6 +75,29 @@ def test_colony() -> None:
         return sum(values)
 
     colony = Colony(N_EMPLOYERS, variables, _objective_fn)
+    colony.initialize()
+    assert len(colony.bees) == 2 * N_EMPLOYERS
+    assert len([b for b in colony.bees if b.is_employer]) == N_EMPLOYERS
+    assert len(colony.bees[0].values) == N_VARIABLES
+    for _ in range(100):
+        colony.search()
+    assert len(colony.bees) == 2 * N_EMPLOYERS
+    assert len([b for b in colony.bees if b.is_employer]) == N_EMPLOYERS
+    assert len(colony.bees[0].values) == N_VARIABLES
+    assert colony.best_fitness == 1.0
+    assert colony.best_values == [0, 0]
+
+
+def test_ray_colony() -> None:
+
+    N_EMPLOYERS = 50
+    N_VARIABLES = 2
+    variables = [Integer(0, 10, True) for _ in range(N_VARIABLES)]
+
+    def _objective_fn(values: List[float]) -> float:
+        return sum(values)
+
+    colony = RayColony(N_EMPLOYERS, variables, _objective_fn)
     colony.initialize()
     assert len(colony.bees) == 2 * N_EMPLOYERS
     assert len([b for b in colony.bees if b.is_employer]) == N_EMPLOYERS
