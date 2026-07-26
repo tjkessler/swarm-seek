@@ -1,2 +1,2 @@
-# artificial-bee-colony
+# swarm-seek
 Artificial bee colony
