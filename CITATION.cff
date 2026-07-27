@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Swarm Seek: A literature-validated Artificial Bee Colony library for Python"
+abstract: >-
+  An open-source Python package implementing Artificial Bee Colony (ABC)
+  optimization and principal peer-reviewed continuous variants, with a NumPy
+  core, ask/tell API, and automated regression tests against published
+  benchmark figures.
+type: software
+authors:
+  - given-names: Travis
+    family-names: Kessler
+    orcid: "https://orcid.org/0000-0002-7363-4050"
+repository-code: "https://github.com/tjkessler/swarm-seek"
+url: "https://swarm-seek.readthedocs.io/"
+license: Apache-2.0
+version: 0.1.0a0
+keywords:
+  - artificial-bee-colony
+  - swarm-intelligence
+  - metaheuristic
+  - optimization
+  - ask-tell

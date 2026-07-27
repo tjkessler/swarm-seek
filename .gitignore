@@ -70,6 +70,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/build/
 
 # PyBuilder
 .pybuilder/
@@ -169,3 +170,26 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Local agent tooling (maintainer-only; not part of published package)
+AGENTS.md
+CLAUDE.md
+.github/copilot-instructions.md
+.cursor/rules/_dev.mdc
+.cursor/dev-toolkit.yaml
+.cursor/rules/
+docs/blueprint/BLUEPRINT.md
+
+# Local literature PDFs / extraction scratch (copyrighted; do not commit)
+gbest_abc_zhu_kwong
+gbest_abc_zhu_kwong.pdf
+.zhu_kwong.txt
+karaboga_gorkemli.pdf
+karaboga_gorkemli_fixed.pdf
+.qabc_extract.txt
+akay_karaboga.pdf
+.mabc_extract.txt
+s10898-007-9149-x.pdf
+
+# Pre-package proposal scratch (not part of the published library)
+SwarmSeek_Project_Proposal.md

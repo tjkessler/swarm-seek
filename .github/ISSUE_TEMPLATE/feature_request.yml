@@ -1,0 +1,68 @@
+name: Feature request
+description: Suggest a new capability or improvement for Swarm Seek
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature. Describe the problem you are trying to solve and how Swarm Seek could help.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: What limitation or use case prompted this request?
+      placeholder: I'm trying to optimize ... but currently ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How would you like this to work in the library API or workflow?
+      placeholder: Add a ... variant / space / backend that ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches or packages you have tried or considered.
+      placeholder: I considered using mealpy / niapy / ecabc instead.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (optional)
+      description: Where would this feature fit?
+      options:
+        - Core ask/tell API
+        - ABC variant
+        - Search space
+        - Backend / performance
+        - Benchmarks / literature oracles
+        - Integrations (sklearn / Optuna)
+        - Documentation / examples
+        - Other
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This affects the public API (new classes, methods, or breaking changes)
+          required: false
+        - label: This includes a literature citation and validation plan (for algorithm variants)
+          required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links to papers, related issues, or example objectives.
+      placeholder: Optional
