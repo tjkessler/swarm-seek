@@ -1,7 +1,7 @@
 Limitations
 ===========
 
-Current release (``0.1.0``)
+Current release (``0.1.1``)
 ----------------------------
 
 * Continuous search spaces only (``ContinuousSpace``). Combinatorial ABC

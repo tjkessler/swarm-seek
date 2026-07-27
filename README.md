@@ -6,7 +6,7 @@ Swarm Seek implements Original ABC and principal peer-reviewed continuous
 variants (GABC, qABC, MABC) with a NumPy core, an ask/tell API, and automated
 checks against published benchmark figures.
 
-**Status:** `0.1.0` (beta). Continuous ABC core, variants, ask/tell API, and
+**Status:** `0.1.1` (beta). Continuous ABC core, variants, ask/tell API, and
 literature oracles. Docs: https://swarm-seek.readthedocs.io/
 
 ## Install

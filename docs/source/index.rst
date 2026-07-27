@@ -5,7 +5,7 @@ Swarm Seek
 with citation-linked variants (Original, GABC, qABC, MABC), a NumPy execution
 core, an ask/tell API, and literature-oracle regression tests.
 
-Version ``0.1.0`` (beta) ships the continuous core API; see :doc:`quickstart`
+Version ``0.1.1`` (beta) ships the continuous core API; see :doc:`quickstart`
 and the ``examples/`` notebooks.
 
 .. toctree::

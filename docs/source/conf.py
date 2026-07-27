@@ -15,7 +15,7 @@ copyright = "2026, Travis Kessler"
 try:
     from swarm_seek import __version__ as release
 except ImportError:  # pragma: no cover
-    release = "0.1.0"
+    release = "0.1.1"
 
 version = release
 
