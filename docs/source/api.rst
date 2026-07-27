@@ -25,6 +25,21 @@ Space
    :members:
    :show-inheritance:
 
+.. autoclass:: swarm_seek.PermutationSpace
+   :members:
+   :show-inheritance:
+
+Integrations (optional extras)
+------------------------------
+
+.. autoclass:: swarm_seek.integrations.ABCSearchCV
+   :members:
+   :no-index:
+
+.. autoclass:: swarm_seek.integrations.ABCSampler
+   :members:
+   :no-index:
+
 Types
 -----
 

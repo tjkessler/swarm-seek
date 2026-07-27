@@ -85,6 +85,7 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
+"tests/integrations/**" = ["E402"]
 
 [tool.ruff.format]
 quote-style = "double"

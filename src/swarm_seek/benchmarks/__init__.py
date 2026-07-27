@@ -15,6 +15,7 @@ from swarm_seek.benchmarks.oracles import (
     LiteratureOracle,
     mean_best_over_runs,
 )
+from swarm_seek.benchmarks.tsp import random_cities, tour_length
 
 __all__ = [
     "AKAY_KARABOGA_2012_T2_SPHERE",
@@ -25,7 +26,9 @@ __all__ = [
     "ackley",
     "griewank",
     "mean_best_over_runs",
+    "random_cities",
     "rastrigin",
     "rosenbrock",
     "sphere",
+    "tour_length",
 ]

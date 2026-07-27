@@ -1,9 +1,9 @@
 # Swarm Seek: A literature-validated Artificial Bee Colony library for Python
 
-**Design Document — v0.1 (Draft)**  
-**Date:** 2026-07-26  
-**Status:** Approved 2026-07-26 (novelty PROCEED; open questions Q1–Q7 resolved)  
-**Target first release:** `0.1.0` (production-stable beta)
+**Design Document — v0.2**  
+**Date:** 2026-07-27 (amended from v0.1 approved 2026-07-26)  
+**Status:** `0.1.0` shipped; this amend defines consolidated **`0.2.0`** scope  
+**Target next release:** `0.2.0` (backends, adapters, combinatorial ABC)
 
 ---
 
@@ -11,10 +11,11 @@
 
 **Swarm Seek** (`swarm-seek` on PyPI; import name `swarm_seek`) is an open-source Python package that implements Derviş Karaboga’s Artificial Bee Colony (ABC) algorithm and its principal peer-reviewed continuous variants (GABC, qABC, MABC), with a batched NumPy execution core, an ask/tell optimization loop, and automated regression tests against published benchmark figures.
 
-Version `0.1.0` ships the continuous-space core: Original ABC plus GABC, qABC, and MABC; `ContinuousSpace`; NumPy backend; literature-backed validation tests; Sphinx documentation; and CI matching the packaging rigor of mature sibling scientific packages. Combinatorial spaces (CABC), optional Numba/JAX backends, and scikit-learn / Optuna adapters are designed as post-`0.1.0` extensions of the same architecture, not as redesigns.
+Version **`0.1.0`** shipped the continuous-space core: Original ABC plus GABC, qABC, and MABC; `ContinuousSpace`; NumPy backend; literature oracles; Sphinx + CI; PyPI beta.
+
+Version **`0.2.0`** consolidates former roadmap items 0.2–0.5 into one cut: optional **Numba** and **JAX** backends with **parity** on continuous `BackendProtocol` hot paths; documented speed comparisons; **`ABCSearchCV`** (scikit-learn extra); **`ABCSampler`** (Optuna extra); **`PermutationSpace`** + **CABC** (Karaboga & Gorkemli 2011). Binary/mixed spaces remain deferred.
 
 **License:** Apache-2.0.
-
 ---
 
 ## 2. Motivation and problem statement
@@ -75,7 +76,17 @@ Numbered goals for `0.1.0`. Each maps to a verifiable outcome.
 | G9 | Ship Apache-2.0 licensing, CITATION.cff, CONTRIBUTING, CHANGELOG, SECURITY, issue/PR templates. | Repo audit checklist. |
 | G10 | Publish `0.1.0` to PyPI as Development Status :: 4 - Beta with a reproducible install path. | Tag-triggered release workflow; clean `pip install swarm-seek`. |
 
-Post-`0.1.0` goals (designed for, not required at launch): G11 Numba backend; G12 JAX backend; G13 `ABCSearchCV`; G14 `ABCSampler`; G15 `PermutationSpace` + CABC; G16 binary/mixed spaces.
+### 4.1 Goals for `0.2.0` (consolidated)
+
+| ID | Goal | Verification |
+|----|------|--------------|
+| G11 | Optional **Numba** backend implementing `BackendProtocol.generate_candidates` with numerical parity to NumPy. | Parity tests vs NumPy/slow reference; `pip install swarm-seek[numba]`. |
+| G12 | Optional **JAX** backend with the **same continuous hot-path capability** as NumPy/Numba (parity release blocker). | Parity tests; host `float64` NumPy arrays at the Space/colony boundary; `pip install swarm-seek[jax]`. |
+| G11b | Documented **speed comparison** (NumPy vs Numba; JAX where fair) as script or notebook. | Runnable under `examples/` or `scripts/`; full timings `@pytest.mark.slow` or script-only (not PR wall-clock gate). |
+| G13 | **`ABCSearchCV`** (sklearn extra) wrapping ask/tell; evaluation owned by sklearn CV. | Unit tests with a tiny estimator; example notebook. |
+| G14 | **`ABCSampler`** (Optuna extra) implementing Optuna’s sampler interface. | Unit tests with a tiny study; example notebook. |
+| G15 | **`PermutationSpace`** + **CABC** variant (Karaboga & Gorkemli 2011) with citation-linked discrete operators. | Unit tests; ≥1 literature or synthetic oracle/smoke. |
+| G16 | Binary/mixed spaces | **Deferred** past `0.2.0`. |
 
 ---
 
@@ -84,7 +95,7 @@ Post-`0.1.0` goals (designed for, not required at launch): G11 Numba backend; G1
 | User | Use case |
 |------|----------|
 | Optimization / OR researcher | Reproduce or extend continuous ABC experiments; swap Original / GABC / qABC / MABC under one API; cite equation modules against papers. |
-| ML practitioner | Black-box hyperparameter or architecture search via ask/tell (and later `ABCSearchCV` / `ABCSampler`) without leaving familiar Python tooling. |
+| ML practitioner | Black-box hyperparameter search via ask/tell, `ABCSearchCV`, or `ABCSampler` without leaving familiar Python tooling. |
 | Scientific software engineer | Embed a seeded, tested ABC loop inside a larger simulation or experiment pipeline with custom evaluation (HPC, async, batched). |
 
 **Top three `0.1.0` use cases**
@@ -112,7 +123,9 @@ Post-`0.1.0` goals (designed for, not required at launch): G11 Numba backend; G1
 
 **Build vs. contribute (novelty review):** Contributing GABC/qABC/MABC upstream to MEALPY or NiaPy would add variants inside broad multi-algorithm frameworks but would not deliver Swarm Seek’s literature-oracle CI, ABC-first ask/tell product, or focused adoption path. **Decision: build** `swarm-seek`; keep upstream contribution as optional later mirroring, not a substitute.
 
-**Relationship to ECabc:** ECabc remains a valid, focused tuner. Swarm Seek is a different product: general ABC optimization library with variant modules, space/backend separation, and literature validation. Hyperparameter tuning is a use case (via ask/tell now; sklearn/Optuna later), not the sole framing.
+**Relationship to ECabc:** ECabc remains a valid, focused tuner. Swarm Seek is a different product: general ABC optimization library with variant modules, space/backend separation, and literature validation. Hyperparameter tuning is a use case (via ask/tell, `ABCSearchCV`, and `ABCSampler`), not the sole framing.
+
+**`0.2.0` novelty addendum (2026-07-27):** Optional Numba/JAX backends and sklearn/Optuna adapters are **integration surface**, not a claim of inventing those ecosystems. Differentiation remains the citation-linked ABC variant family + literature oracles + ask/tell core. CABC (Karaboga & Gorkemli 2011, DOI 10.1109/INISTA.2011.5946125) is not shipped as a maintained, tested module in MEALPY/NiaPy/ECabc; Swarm Seek implements discrete neighborhood operators on `PermutationSpace` with documented provenance. **Verdict: PROCEED** for consolidated `0.2.0` (build adapters as thin L5 wrappers; implement CABC in-tree).
 
 **Naming note:** ECabc also exports a top-level class named `ABC`. Swarm Seek’s `from swarm_seek import ABC` is a different package and import path. Docs and FAQ should disambiguate (`swarm_seek.ABC` vs `ecabc.ABC`) so users and citation text do not confuse the two.
 
@@ -125,11 +138,11 @@ Architecture is **custom to ABC** (space × variant × backend), while packaging
 ### 7.1 Layer diagram
 
 ```text
-L5  integrations/     (post-0.1.0: sklearn, optuna)     — imports L4, L3
+L5  integrations/     sklearn (ABCSearchCV), optuna (ABCSampler) — imports L4, L3
 L4  façade            ABC, solve helpers                  — imports L3, L2, L1, L0
 L3  colony            Colony engine, ask/tell, state      — imports L2, L1, L0
-L2  variants          Original, GABC, qABC, MABC (+CABC later) — imports L0 only
-L1  backends          NumPy (default); Numba/JAX later    — imports L0 only
+L2  variants          Original, GABC, qABC, MABC, CABC    — imports L0 only
+L1  backends          NumPy (default); Numba; JAX         — imports L0 only
 L0  foundation        Space, Solution, RNG, types, errors — no upward imports
 L6  benchmarks        Test functions + literature oracles — imports public API / L0–L4
 ```
@@ -360,7 +373,8 @@ Layout uses `src/swarm_seek/`. Names below are design intent; exact file splits 
 
 **Purpose:** search-space representations.  
 **`0.1.0`:** `ContinuousSpace`.  
-**Later:** `PermutationSpace`, `BinarySpace`, `MixedSpace`.  
+**`0.2.0`:** `PermutationSpace` — integer permutations of length `n`; `sample` draws uniform random permutations; `repair` restores a valid permutation after discrete edits (e.g. after swap/insert); `validate` rejects non-permutations.  
+**Later:** `BinarySpace`, `MixedSpace`.  
 **Extension:** implement `Space` protocol; provide `sample` / `repair` / `validate`.
 
 ### 9.2 `swarm_seek.types` / `swarm_seek.errors` (L0)
@@ -370,9 +384,16 @@ Layout uses `src/swarm_seek/`. Names below are design intent; exact file splits 
 ### 9.3 `swarm_seek.backends` (L1)
 
 **Purpose:** numerical kernels for candidate generation and related array ops.  
-**`0.1.0`:** `numpy` (+ `auto` → numpy).  
-**Later:** `numba`, `jax` as optional extras.  
-**Rule:** backends never encode variant-specific equations beyond shared arithmetic primitives used by strategies.
+**Shared continuous primitive:** `v = x + phi * (x - x_partner)` then `space.repair` (`BackendProtocol.generate_candidates`).
+
+| Registry key | Extra | Role |
+|--------------|-------|------|
+| `numpy` | (core) | Reference implementation |
+| `numba` | `numba` | JIT-compiled continuous hot path; import-guarded |
+| `jax` | `jax` | JAX continuous hot path; **parity** with NumPy/Numba at the colony boundary (`float64` host arrays) |
+| `auto` | — | Prefer `numba` if importable, else `numpy`. JAX is **never** selected by `auto` (explicit opt-in). |
+
+**Rule:** backends never encode variant-specific equations beyond shared arithmetic primitives used by strategies. Missing extras raise clear import errors.
 
 ### 9.4 `swarm_seek.variants` (L2)
 
@@ -382,7 +403,9 @@ Layout uses `src/swarm_seek/`. Names below are design intent; exact file splits 
 | `gabc` | Gbest-guided ABC | Zhu & Kwong (2010) |
 | `qabc` | Quick ABC | Karaboga & Gorkemli (2014) |
 | `mabc` | Modified ABC | Akay & Karaboga (2012) |
-| `cabc` | Combinatorial ABC | Karaboga & Gorkemli (2011) — **post-`0.1.0`** |
+| `cabc` | Combinatorial ABC | Karaboga & Gorkemli (2011) — **`0.2.0`** |
+
+**CABC (`0.2.0`):** replaces continuous φ-neighbor arithmetic with discrete neighborhood operators on `PermutationSpace` (swap / insertion / inversion as documented against Karaboga & Gorkemli 2011). Colony phase structure (employed / onlooker / scout) matches ABC; candidate generation is strategy-owned for combinatorial representation (backends’ continuous kernel is unused for CABC). Equation/operator locators are recorded in the variant module docstring after literature review.
 
 Each module documents: paper citation, equation identifiers as implemented, parameter names mapped to paper symbols, and known ambiguities (see §14).
 
@@ -395,18 +418,19 @@ Each module documents: paper citation, equation identifiers as implemented, para
 
 **Purpose:** ergonomic constructors and registry lookup (`variant="gabc"` → strategy instance). Keeps tutorials on one import path.
 
-### 9.7 `swarm_seek.integrations` (L5, post-`0.1.0`)
+### 9.7 `swarm_seek.integrations` (L5, `0.2.0`)
 
-- `sklearn.py` — `ABCSearchCV`
-- `optuna_sampler.py` — `ABCSampler`  
-Both wrap ask/tell; no duplicate ABC math.
+- `sklearn.py` — `ABCSearchCV`: RandomizedSearchCV-like surface over continuous (and where applicable discrete) param spaces; wraps ask/tell; CV scoring owned by sklearn.
+- `optuna_sampler.py` — `ABCSampler`: Optuna `BaseSampler` subclass; suggest/tell maps to colony ask/tell; study lifecycle stays in Optuna.
+
+Both wrap ask/tell; no duplicate ABC math. Import-guarded behind extras.
 
 ### 9.8 `swarm_seek.benchmarks` (L6)
 
 - `functions.py` — Sphere, Rastrigin, Rosenbrock, Griewank, Ackley with formulations matching the validation papers (explicit citation per function).
 - `oracles.py` / `validate.py` — tabulated literature targets, tolerances, and runner helpers used by tests.
+- Combinatorial smoke/oracle helpers for CABC (TSP-style tour length or synthetic permutation objective) at `0.2.0`.
 - Not a substitute for user objectives; shipped for validation and tutorials.
-
 ---
 
 ## 10. Dependencies and ecosystem integration
@@ -417,37 +441,37 @@ Both wrap ask/tell; no duplicate ABC math.
 |------------|------|
 | `numpy` | Population arrays, RNG (`Generator`), default backend |
 
-No other hard deps for `0.1.0`.
+No other hard deps for core continuous ABC. Optional extras never become hard deps.
 
 ### 10.2 Optional extras
 
-| Extra | Packages | When |
-|-------|----------|------|
+| Extra | Packages | Required for |
+|-------|----------|--------------|
 | `dev` | pytest, pytest-cov, ruff, pre-commit, nbmake, … | Contributors |
 | `docs` | sphinx, furo, sphinx-copybutton | Docs builds |
-| `numba` | numba | Post-`0.1.0` backend |
-| `jax` | jax | Post-`0.1.0` backend |
-| `sklearn` | scikit-learn | Post-`0.1.0` `ABCSearchCV` |
-| `optuna` | optuna | Post-`0.1.0` `ABCSampler` |
+| `numba` | numba | Numba backend |
+| `jax` | jax | JAX backend |
+| `sklearn` | scikit-learn | `ABCSearchCV` |
+| `optuna` | optuna | `ABCSampler` |
 
-### 10.3 Ecosystem adapters (post-`0.1.0`)
+### 10.3 Ecosystem adapters (`0.2.0`)
 
 - **scikit-learn:** `ABCSearchCV` mirrors `RandomizedSearchCV` / search-CV patterns; evaluation remains user/sklearn-owned.
 - **Optuna:** `ABCSampler` implements Optuna’s sampler interface; study lifecycle stays in Optuna.
 - **Ask/tell:** primary integration path for custom loops (aligned with Nevergrad / pymoo / Optuna ask-tell idioms).
-
 ---
 
 ## 11. Validation strategy
 
 ### 11.1 Unit tests
 
-- Space bounds, repair, sampling shapes.
-- Variant equation pieces (employed neighbor selection, φ scaling, gbest term in GABC, qABC onlooker neighborhood, MABC modification rate / scaling) with small hand-checked fixtures.
+- Space bounds, repair, sampling shapes (`ContinuousSpace`, `PermutationSpace`).
+- Variant equation pieces (employed neighbor selection, φ scaling, gbest term in GABC, qABC onlooker neighborhood, MABC modification rate / scaling; CABC discrete operators) with small hand-checked fixtures.
 - Colony ask/tell contract, seed determinism, abandonment/scout triggers.
-- Backend candidate generation vs a slow reference implementation for tiny populations.
+- Backend candidate generation vs a slow reference / NumPy reference for tiny populations (**parity** NumPy ↔ Numba ↔ JAX).
+- Adapter unit tests for `ABCSearchCV` and `ABCSampler` (skipped when extras absent; CI jobs with extras installed).
 
-**Coverage floor:** 90% line coverage on `swarm_seek` (`fail_under = 90`), matching KoopmanGraph’s gate.
+**Coverage floor:** 90% line coverage on `swarm_seek` (`fail_under = 90`), matching KoopmanGraph’s gate. Optional-extra modules may use targeted coverage with skips when extras are absent.
 
 ### 11.2 Integration tests
 
@@ -473,7 +497,14 @@ No other hard deps for `0.1.0`.
   asserting each fixture’s published ``abs_tol``); `@pytest.mark.slow` covers
   full paper FE budgets and multi-run suites (release / schedule).
 
-Follow-up workflows during implementation (not design blockers): literature algorithm review, benchmark suite scaffolding, and table→fixture extraction for each oracle.
+**`0.2.0` additions**
+
+| Area | Policy |
+|------|--------|
+| Backend parity | NumPy reference vs Numba/JAX on `generate_candidates` (same seed/`phi`/partners → numerically close host arrays). |
+| CABC oracle | ≥1 literature table extract **or** synthetic TSP/permutation smoke with documented protocol if paper tables are not extractable. |
+| Speed scripts | Documented NumPy vs Numba (and JAX where fair); **not** a PR wall-clock gate (`@pytest.mark.slow` or script-only). |
+| Adapters | Unit tests + example notebooks; CI optional jobs with `[sklearn]` / `[optuna]` / `[numba]` / `[jax]`. |
 
 ### 11.4 Notebooks (`examples/`)
 
@@ -484,9 +515,10 @@ Follow-up workflows during implementation (not design blockers): literature algo
 | `05_system_integration.ipynb` | `Colony` + external-style evaluator | Orchestrated run + metrics; fitness threshold. |
 | `02_variant_compare.ipynb` | Original vs GABC vs qABC vs MABC | All complete; plot or table of best fitness; no exceptions. |
 | `03_literature_smoke.ipynb` | One literature-style run | Matches oracle helper within tolerance or documents skip reason. |
+| `06_sklearn_abcsearchcv.ipynb` (`0.2.0`) | Tiny estimator + `ABCSearchCV` | Completes; best score finite. |
+| `07_optuna_abcsampler.ipynb` (`0.2.0`) | Tiny study + `ABCSampler` | Completes; best value finite. |
 
-`nbmake` in CI once notebooks exist.
-
+`nbmake` in CI (core notebooks always; adapter notebooks when extras present or in extras jobs).
 ### 11.5 Numerical assumptions
 
 - Objectives are real-valued; default minimize.
@@ -538,21 +570,19 @@ Patterned on KoopmanGraph (docs site, CI matrix, coverage floor, governance file
 
 | Version | Scope |
 |---------|-------|
-| **0.1.0** (this design) | L0–L4 continuous core: ask/tell, `ContinuousSpace`, Original + GABC + qABC + MABC, NumPy backend, literature oracles, Sphinx + CI, PyPI beta. |
-| **0.2.0** | Numba backend + documented speed comparison scripts vs pure-Python baselines. |
-| **0.3.0** | `ABCSearchCV` (scikit-learn extra) + example notebook. |
-| **0.4.0** | `ABCSampler` (Optuna extra) + example notebook. |
-| **0.5.0** | `PermutationSpace` + CABC; optional JAX backend. |
-| **0.6.0+** | Binary/mixed spaces; deferred variants (BSF-ABC, Chaotic ABC) if justified; docs/polish for broader adoption. |
+| **0.1.0** | L0–L4 continuous core: ask/tell, `ContinuousSpace`, Original + GABC + qABC + MABC, NumPy backend, literature oracles, Sphinx + CI, PyPI beta. **Shipped.** |
+| **0.2.0** (this amend) | Numba + JAX backends (**parity**), `auto` resolution, speed comparison scripts/notebook; `ABCSearchCV`; `ABCSampler`; `PermutationSpace` + CABC; docs/CI extras matrix. |
+| **0.3.0** | Binary/mixed spaces. |
+| **0.4.0+** | Deferred variants (BSF-ABC, Chaotic ABC) if justified; adoption polish. |
 | **1.0.0** | API stability freeze after real-user feedback; expanded oracle set; governance as needed for long-term maintenance. |
 
-Mapping to proposal milestones: proposal M0+M1 → `0.1.0`; M2 → `0.2.0`; M3 → `0.3.0`; M4 → `0.4.0`; M5 → `0.5.0`; M6 packaging items are included in `0.1.0` rather than deferred.
+Proposal milestones M2–M5 collapse into `0.2.0`; binary/mixed → `0.3.0`.
 
 ---
 
 ## 14. Open questions
 
-**Resolved 2026-07-26.** Decisions below are binding for implementation.
+### 14.1 Resolved for `0.1.0` (2026-07-26)
 
 | ID | Decision | Notes |
 |----|----------|-------|
@@ -564,7 +594,15 @@ Mapping to proposal milestones: proposal M0+M1 → `0.1.0`; M2 → `0.2.0`; M3 �
 | Q6 | **(c)** `ABC` façade + power-user `Colony` | FAQ disambiguates from `ecabc.ABC`. |
 | Q7 | **(a)** Public repository | Published documentation describes only the installable package. |
 
-No open design questions remain for `0.1.0` scope.
+### 14.2 Defaults for `0.2.0` (binding unless revised before blueprint tasks)
+
+| ID | Decision | Notes |
+|----|----------|-------|
+| Q8 | CABC encoding | Tours as length-`n` permutations of `{0,…,n-1}`; neighborhood = **swap** + **insertion** (inversion optional helper); document any deviation from Karaboga & Gorkemli (2011) operators after literature review. |
+| Q9 | JAX device/dtype | Colony/Space boundary is always host `numpy.float64`; JAX converts internally; default device is JAX default (CPU in CI). |
+| Q10 | `ABCSearchCV` mapping | Param distributions → `ContinuousSpace` (and discrete int via round/clip where needed); search loop = ask/tell with sklearn CV score as fitness. |
+| Q11 | `auto` backend | Prefer Numba if importable else NumPy; never auto-select JAX. |
+| Q12 | CABC oracle bar | Prefer paper table; if unavailable, synthetic TSP smoke with documented protocol is acceptable for `0.2.0`. |
 
 ---
 
@@ -589,5 +627,8 @@ Citation placement plan: design doc (here); per-variant module docstrings and Sp
 - [x] Goals in §4 are accepted as the `0.1.0` bar
 - [x] Architecture layers and dependency rule in §7 are accepted
 - [x] User approves this document as the implementation source of truth (2026-07-26)
+- [x] `0.2.0` consolidated scope amend (G11–G15, modules, validation, roadmap, Q8–Q12 defaults) — 2026-07-27
+- [ ] Novelty + CABC literature gates for `0.2.0` (Phase 1)
+- [ ] Blueprint tasks for `0.2.0` approved/executed
 
-**Next steps:** implement `0.1.0` in dependency-ordered tasks (scaffolding → L0–L4 → literature oracles → docs/release).
+**Next steps:** novelty + CABC literature review → blueprint → implement backends → CABC → adapters → tag `0.2.0`.

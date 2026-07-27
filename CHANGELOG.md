@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-27
+
+### Added
+
+- Optional Numba and JAX backends with numerical parity to NumPy on
+  ``generate_candidates``; ``backend="auto"`` prefers Numba when installed.
+- ``scripts/compare_backends.py`` for documented speed comparisons (not a CI gate).
+- ``PermutationSpace`` and combinatorial ABC (``variant="cabc"``) with swap /
+  insertion neighborhoods (Karaboga & Gorkemli 2011); synthetic TSP smoke.
+- ``ABCSearchCV`` (``swarm-seek[sklearn]``) and ``ABCSampler`` (``swarm-seek[optuna]``).
+- Example notebooks ``06_sklearn_abcsearchcv.ipynb`` and ``07_optuna_abcsampler.ipynb``.
+
 ## [0.1.1] - 2026-07-27
 
 ### Added
@@ -51,6 +63,7 @@ literature oracles, ask/tell API, Sphinx docs, and CI.
 - Corrected Akay & Karaboga (2012) DOI to ``10.1016/j.ins.2010.07.015``.
 - CI literature oracles use reduced evaluation-budget smokes; full paper protocols are ``@pytest.mark.slow``. Workflow consolidated with pip cache for faster PR checks.
 
-[Unreleased]: https://github.com/tjkessler/swarm-seek/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/tjkessler/swarm-seek/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/tjkessler/swarm-seek/releases/tag/v0.2.0
 [0.1.1]: https://github.com/tjkessler/swarm-seek/releases/tag/v0.1.1
 [0.1.0]: https://github.com/tjkessler/swarm-seek/releases/tag/v0.1.0

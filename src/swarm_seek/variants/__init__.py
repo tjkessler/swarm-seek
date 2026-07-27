@@ -1,9 +1,11 @@
-"""Published ABC variant strategies (Original, GABC, qABC, MABC)."""
+"""Published ABC variant strategies (Original, GABC, qABC, MABC, CABC)."""
 
+from swarm_seek.variants import cabc as _cabc  # noqa: F401
 from swarm_seek.variants import gabc as _gabc  # noqa: F401
 from swarm_seek.variants import mabc as _mabc  # noqa: F401
 from swarm_seek.variants import original as _original  # noqa: F401
 from swarm_seek.variants import qabc as _qabc  # noqa: F401
+from swarm_seek.variants.cabc import CombinatorialABC
 from swarm_seek.variants.gabc import GbestABC
 from swarm_seek.variants.mabc import ModifiedABC
 from swarm_seek.variants.original import OriginalABC
@@ -20,6 +22,7 @@ from swarm_seek.variants.registry import (
 
 __all__ = [
     "DEFAULT_LIMIT",
+    "CombinatorialABC",
     "GbestABC",
     "ModifiedABC",
     "OriginalABC",

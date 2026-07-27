@@ -2,12 +2,12 @@
 
 Literature-validated Artificial Bee Colony (ABC) optimization for Python.
 
-Swarm Seek implements Original ABC and principal peer-reviewed continuous
-variants (GABC, qABC, MABC) with a NumPy core, an ask/tell API, and automated
-checks against published benchmark figures.
+Swarm Seek implements Original ABC and principal peer-reviewed variants
+(GABC, qABC, MABC, CABC) with a NumPy core, optional Numba/JAX backends, an
+ask/tell API, scikit-learn / Optuna adapters, and automated checks against
+published benchmark figures.
 
-**Status:** `0.1.1` (beta). Continuous ABC core, variants, ask/tell API, and
-literature oracles. Docs: https://swarm-seek.readthedocs.io/
+**Status:** `0.2.0` (beta). Docs: https://swarm-seek.readthedocs.io/
 
 ## Install
 
@@ -15,6 +15,15 @@ Requires Python 3.10+.
 
 ```bash
 pip install swarm-seek
+```
+
+Optional extras:
+
+```bash
+pip install 'swarm-seek[numba]'    # Numba backend
+pip install 'swarm-seek[jax]'      # JAX backend
+pip install 'swarm-seek[sklearn]'  # ABCSearchCV
+pip install 'swarm-seek[optuna]'   # ABCSampler
 ```
 
 Editable install for development:
@@ -56,8 +65,23 @@ while not colony.converged:
 print(colony.best.fitness)
 ```
 
+Combinatorial ABC (permutation / TSP-style):
+
+```python
+from swarm_seek import ABC, PermutationSpace
+from swarm_seek.benchmarks import random_cities, tour_length
+
+cities = random_cities(12, seed=0)
+space = PermutationSpace(12)
+best = ABC(space, variant="cabc", pop_size=16, max_evals=2_000, seed=0).minimize(
+    lambda x: tour_length(x, cities)
+)
+print(best.fitness)
+```
+
 Runnable notebooks with stated pass criteria live in [`examples/`](examples/).
-Full documentation (variants, architecture, API, FAQ) builds from `docs/source/`.
+Backend timing: `python scripts/compare_backends.py`.
+Full documentation builds from `docs/source/`.
 
 ## License
 

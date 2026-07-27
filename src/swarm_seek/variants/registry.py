@@ -8,7 +8,13 @@ from swarm_seek.errors import SwarmSeekError, UnknownVariantError
 from swarm_seek.types import VariantName
 from swarm_seek.variants.protocol import VariantStrategy
 
-VARIANT_NAMES: tuple[VariantName, ...] = ("original", "gabc", "qabc", "mabc")
+VARIANT_NAMES: tuple[VariantName, ...] = (
+    "original",
+    "gabc",
+    "qabc",
+    "mabc",
+    "cabc",
+)
 
 _REGISTRY: dict[str, Callable[[], VariantStrategy]] = {}
 

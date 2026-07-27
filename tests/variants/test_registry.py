@@ -88,7 +88,7 @@ def _clean_registry() -> None:
 
 
 def test_variant_names_match_design() -> None:
-    assert VARIANT_NAMES == ("original", "gabc", "qabc", "mabc")
+    assert VARIANT_NAMES == ("original", "gabc", "qabc", "mabc", "cabc")
 
 
 def test_register_and_get_variant() -> None:

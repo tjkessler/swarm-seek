@@ -17,7 +17,10 @@ def _sphere(x: np.ndarray) -> np.ndarray:
     return np.sum(np.asarray(x, dtype=np.float64) ** 2, axis=-1)
 
 
-@pytest.mark.parametrize("variant", list(VARIANT_NAMES))
+CONTINUOUS_VARIANTS = [v for v in VARIANT_NAMES if v != "cabc"]
+
+
+@pytest.mark.parametrize("variant", CONTINUOUS_VARIANTS)
 def test_abc_constructs_all_variants(variant: str) -> None:
     space = ContinuousSpace([(-2.0, 2.0)] * 2)
     extra: dict[str, float] = {}

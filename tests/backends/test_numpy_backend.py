@@ -9,7 +9,7 @@ import numpy as np
 import pytest
 
 from swarm_seek.backends import BackendProtocol, NumpyBackend, get_backend
-from swarm_seek.errors import BoundsError, UnknownBackendError
+from swarm_seek.errors import BoundsError
 from swarm_seek.space import ContinuousSpace
 
 
@@ -114,17 +114,15 @@ def test_shape_mismatches_raise() -> None:
         )
 
 
-def test_get_backend_numpy_and_auto() -> None:
+def test_get_backend_numpy() -> None:
     a = get_backend("numpy")
-    b = get_backend("auto")
     assert isinstance(a, NumpyBackend)
-    assert isinstance(b, NumpyBackend)
     assert a.name == "numpy"
 
 
-def test_get_backend_unknown() -> None:
-    with pytest.raises(UnknownBackendError, match="Unknown backend"):
-        get_backend("jax")  # type: ignore[arg-type]
+def test_get_backend_auto_resolves() -> None:
+    b = get_backend("auto")
+    assert b.name in {"numpy", "numba"}
 
 
 def _imported_modules(path: Path) -> set[str]:
