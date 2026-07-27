@@ -6,21 +6,21 @@ Swarm Seek implements Original ABC and principal peer-reviewed continuous
 variants (GABC, qABC, MABC) with a NumPy core, an ask/tell API, and automated
 checks against published benchmark figures.
 
-**Status:** pre-release (`0.1.0a0`). Continuous ABC core, variants, ask/tell, and
-literature oracles are available; packaging for PyPI is next.
+**Status:** `0.1.0` (beta). Continuous ABC core, variants, ask/tell API, and
+literature oracles. Docs: https://swarm-seek.readthedocs.io/
 
 ## Install
 
 Requires Python 3.10+.
 
 ```bash
-pip install -e ".[dev]"
+pip install swarm-seek
 ```
 
-From PyPI (when published):
+Editable install for development:
 
 ```bash
-pip install swarm-seek
+pip install -e ".[dev]"
 ```
 
 ## Quick start

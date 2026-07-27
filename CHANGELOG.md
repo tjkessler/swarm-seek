@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-07-27
+
+First public beta of Swarm Seek: continuous ABC core, citation-linked variants,
+literature oracles, ask/tell API, Sphinx docs, and CI.
+
 ### Added
 
 - Initial package skeleton (`src/swarm_seek/` layout, Apache-2.0 license).
 - Development tooling: pytest + coverage gate (90%), ruff, pre-commit, GitHub Actions CI.
-- Sphinx + Furo documentation scaffold and Read the Docs configuration.
+- Sphinx + Furo documentation and Read the Docs configuration.
 - Contribution and governance files (`CONTRIBUTING.md`, code of conduct, security policy, citation metadata).
 - L0 types and errors: frozen `Solution`, shared aliases (`FloatArray`, `VariantName`, `BackendName`, `Sense`), and typed exceptions (`SwarmSeekError` hierarchy).
 - `ContinuousSpace` with box bounds, uniform `sample`, clip `repair`, and `validate` (`Space` protocol).
@@ -32,9 +37,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Example notebooks under ``examples/`` (ask/tell Sphere, variant compare, literature smoke, custom objective, system integration) with nbmake CI.
 - Sphinx content for variants (primary citations), architecture layers, limitations, FAQ (ECabc disambiguation), and public API autodoc.
 - Dependabot weekly updates for ``pip`` and ``github-actions``.
+- GitHub Release–triggered PyPI publish workflow (OIDC trusted publishing).
 
 ### Fixed
 
 - qABC onlooker neighborhoods use per-source mean distance (Eq. 6) and apply candidates to the neighborhood-best index.
 - Corrected Akay & Karaboga (2012) DOI to ``10.1016/j.ins.2010.07.015``.
 - CI literature oracles use reduced evaluation-budget smokes; full paper protocols are ``@pytest.mark.slow``. Workflow consolidated with pip cache for faster PR checks.
+
+[Unreleased]: https://github.com/tjkessler/swarm-seek/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/tjkessler/swarm-seek/releases/tag/v0.1.0

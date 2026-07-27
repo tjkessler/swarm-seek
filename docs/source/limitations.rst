@@ -1,8 +1,8 @@
 Limitations
 ===========
 
-Current pre-release (``0.1.0a0``)
----------------------------------
+Current release (``0.1.0``)
+----------------------------
 
 * Continuous search spaces only (``ContinuousSpace``). Combinatorial ABC
   (CABC) is post-``0.1.0``.
@@ -10,7 +10,6 @@ Current pre-release (``0.1.0a0``)
 * No scikit-learn or Optuna adapters yet (designed as L5 extras later).
 * Literature oracles use tolerance bands; papers typically omit RNG seeds, so
   bit-identical table reproduction is not claimed.
-* Version string remains a pre-release tag until ``0.1.0`` is cut.
 
 Non-goals
 ---------

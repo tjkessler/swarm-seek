@@ -19,8 +19,6 @@ Optional documentation dependencies:
 From PyPI
 ---------
 
-When published:
-
 .. code-block:: bash
 
    pip install swarm-seek

@@ -67,11 +67,32 @@ asked to revise.
 
 ## Documentation hosting
 
-Sphinx sources live under `docs/source/` with `.readthedocs.yaml` for
-[Read the Docs](https://readthedocs.org/). Until a Read the Docs project is
-imported for this repository, build docs locally with the Sphinx command above.
-After import, enable the GitHub integration so pushes rebuild
-`https://swarm-seek.readthedocs.io/`.
+Sphinx sources live under `docs/source/` with `.readthedocs.yaml`.
+Hosted docs: https://swarm-seek.readthedocs.io/ (builds from `main` via
+Read the Docs). Local builds use the Sphinx command above.
+
+## Cutting a release
+
+Maintainers only. Publishing uses **OIDC trusted publishing** to PyPI (no API
+token in the repository). Workflow: `.github/workflows/release.yml`, GitHub
+Environment `pypi`.
+
+1. Ensure `main` is green (CI) and `CHANGELOG.md` has a dated section for the
+   version you are about to ship.
+2. Sync version strings: `src/swarm_seek/__init__.py` (`__version__`) and
+   `CITATION.cff` (`version`, `date-released`).
+3. Run local checks (including `pytest tests/ -m slow` when releasing literature
+   changes) and `python -m build`.
+4. Confirm PyPI trusted publisher is configured for this repo:
+   workflow `release.yml`, environment name `pypi`, owner/repo
+   `tjkessler/swarm-seek`.
+5. Create and publish a GitHub Release whose tag is `vX.Y.Z` (e.g. `v0.1.0`).
+   Publishing the Release triggers the workflow, which builds and uploads to
+   PyPI.
+6. Verify `pip install swarm-seek==X.Y.Z` and the docs site.
+
+Do **not** commit PyPI tokens or `.pypirc` passwords. Optional Zenodo archiving
+can be enabled after the first GitHub Release if a DOI is desired.
 
 ## Security
 

@@ -10,7 +10,7 @@ from swarm_seek import ABC, ContinuousSpace, Solution
 
 
 def test_version_is_pep440_prerelease() -> None:
-    assert swarm_seek.__version__ == "0.1.0a0"
+    assert swarm_seek.__version__ == "0.1.0"
 
 
 def test_planned_subpackages_importable() -> None:

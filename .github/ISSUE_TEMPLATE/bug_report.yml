@@ -52,7 +52,7 @@ body:
     attributes:
       label: Swarm Seek version
       description: Output of `python -c "import swarm_seek; print(swarm_seek.__version__)"` or commit hash if installed from source.
-      placeholder: e.g. 0.1.0a0 or abc1234
+      placeholder: e.g. 0.1.0 or abc1234
     validations:
       required: true
 

@@ -9,7 +9,8 @@ Until the first PyPI release, report issues against the `main` branch.
 | Version lineage | Security updates |
 | --------------- | ---------------- |
 | Latest PyPI release | Supported |
-| Pre-release / development (`0.1.0a0` and similar) | Best-effort on `main` |
+| Latest release on PyPI | Security fixes for the current minor line |
+| Development (`main`) | Best-effort |
 | Older published majors/minors | Not regularly backported |
 
 Check the installed version with:
