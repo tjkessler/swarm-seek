@@ -91,5 +91,5 @@ Apache License 2.0. See [LICENSE](LICENSE).
 
 See [`CITATION.cff`](CITATION.cff) for citation metadata. Archive / DOI:
 [10.5281/zenodo.21630532](https://doi.org/10.5281/zenodo.21630532)
-(concept; version v0.1.1 is
-[10.5281/zenodo.21630533](https://doi.org/10.5281/zenodo.21630533)).
+(concept; version v0.2.0 is
+[10.5281/zenodo.21631303](https://doi.org/10.5281/zenodo.21631303)).

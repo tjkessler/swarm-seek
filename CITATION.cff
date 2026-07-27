@@ -19,8 +19,8 @@ date-released: "2026-07-27"
 doi: 10.5281/zenodo.21630532
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.21630533
-    description: Previous version (v0.1.1); update after Zenodo mints v0.2.0
+    value: 10.5281/zenodo.21631303
+    description: This version (v0.2.0)
 keywords:
   - artificial-bee-colony
   - swarm-intelligence
