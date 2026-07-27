@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Literature oracle for GABC vs Zhu & Kwong (2010) Table 3 Sphere, ``C=1.5`` (mean best).
 - Literature oracle for qABC vs Karaboga & Gorkemli (2014) Table 10 Sphere, ``r=1`` (mean best).
 - Literature oracle for MABC vs Akay & Karaboga (2012) Table 2 Sphere, ``MR=0.5``, ``SF=1`` (mean best).
-- Example notebooks under ``examples/`` (ask/tell Sphere, variant compare, literature smoke) with nbmake CI.
+- Example notebooks under ``examples/`` (ask/tell Sphere, variant compare, literature smoke, custom objective, system integration) with nbmake CI.
 - Sphinx content for variants (primary citations), architecture layers, limitations, FAQ (ECabc disambiguation), and public API autodoc.
 - Dependabot weekly updates for ``pip`` and ``github-actions``.
 

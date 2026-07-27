@@ -478,6 +478,8 @@ Follow-up workflows during implementation (not design blockers): literature algo
 | Notebook | Objective | Pass criteria |
 |----------|-----------|---------------|
 | `01_ask_tell_sphere.ipynb` | Ask/tell on Sphere | Best fitness below fixed threshold; seeded. |
+| `04_custom_objective.ipynb` | User-defined fitness + ask/tell | Seeded ask/tell best below threshold. |
+| `05_system_integration.ipynb` | `Colony` + external-style evaluator | Orchestrated run + metrics; fitness threshold. |
 | `02_variant_compare.ipynb` | Original vs GABC vs qABC vs MABC | All complete; plot or table of best fitness; no exceptions. |
 | `03_literature_smoke.ipynb` | One literature-style run | Matches oracle helper within tolerance or documents skip reason. |
 

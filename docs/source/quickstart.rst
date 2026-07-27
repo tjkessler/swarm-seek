@@ -64,3 +64,5 @@ Runnable notebooks with stated pass criteria are in the repository
 * ``01_ask_tell_sphere.ipynb``
 * ``02_variant_compare.ipynb``
 * ``03_literature_smoke.ipynb``
+* ``04_custom_objective.ipynb`` — wire your own fitness / ask/tell
+* ``05_system_integration.ipynb`` — ``Colony`` orchestration for larger systems
