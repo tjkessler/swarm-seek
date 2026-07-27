@@ -180,16 +180,39 @@ AKAY_KARABOGA_2012_T2_SPHERE = LiteratureOracle(
 )
 
 
+# Reduced FE budgets for PR CI smokes (still assert fixture abs_tol on Sphere).
+# Full paper max_evals remain on each LiteratureOracle and @pytest.mark.slow tests.
+CI_SMOKE_MAX_EVALS: dict[str, int] = {
+    "karaboga_akay_2009_t13_sphere": 150_000,
+    "zhu_kwong_2010_t3_sphere": 100_000,
+    "karaboga_gorkemli_2014_t10_sphere": 100_000,
+    "akay_karaboga_2012_t2_sphere": 15_000,
+}
+CI_SMOKE_N_RUNS = 1
+
+
 def mean_best_over_runs(
     oracle: LiteratureOracle,
     *,
     n_runs: int | None = None,
     seed0: int = 0,
+    max_evals: int | None = None,
+    max_iters: int | None = None,
 ) -> float:
-    """Run ``oracle`` for ``n_runs`` seeds and return mean best fitness."""
+    """Run ``oracle`` for ``n_runs`` seeds and return mean best fitness.
+
+    Optional ``max_evals`` / ``max_iters`` override the fixture budgets for
+    fast CI smokes; omit them to use the paper protocol stored on ``oracle``.
+    """
     runs = oracle.n_runs if n_runs is None else int(n_runs)
     if runs < 1:
         msg = f"n_runs must be >= 1; got {runs}."
+        raise ValueError(msg)
+
+    evals = oracle.max_evals if max_evals is None else int(max_evals)
+    iters = oracle.max_iters if max_iters is None else max_iters
+    if evals < 1:
+        msg = f"max_evals must be >= 1; got {evals}."
         raise ValueError(msg)
 
     space = ContinuousSpace(list(oracle.bounds))
@@ -200,8 +223,8 @@ def mean_best_over_runs(
             variant=oracle.variant,
             pop_size=oracle.pop_size,
             limit=oracle.limit,
-            max_evals=oracle.max_evals,
-            max_iters=oracle.max_iters,
+            max_evals=evals,
+            max_iters=iters,
             seed=seed0 + i,
             **dict(oracle.variant_params),
         )

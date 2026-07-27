@@ -37,3 +37,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - qABC onlooker neighborhoods use per-source mean distance (Eq. 6) and apply candidates to the neighborhood-best index.
 - Corrected Akay & Karaboga (2012) DOI to ``10.1016/j.ins.2010.07.015``.
+- CI literature oracles use reduced evaluation-budget smokes; full paper protocols are ``@pytest.mark.slow``. Workflow consolidated with pip cache for faster PR checks.

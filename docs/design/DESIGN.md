@@ -469,7 +469,9 @@ No other hard deps for `0.1.0`.
 - Assert within a **tolerance band**, not exact float equality; document assumptions where papers omit seeds or RNG details.
 - Do **not** claim bit-identical reproduction of published tables when seeds/RNG are unspecified.
 - Shipping `0.1.0` without a paper-table oracle for any of the four variants is a release blocker (not a silent gap).
-- CI runs a fast subset every PR; optional `@pytest.mark.slow` extended suite on schedule or main.
+- CI runs a **fast smoke** every PR (reduced ``max_evals``, ``n_runs=1``, still
+  asserting each fixture’s published ``abs_tol``); `@pytest.mark.slow` covers
+  full paper FE budgets and multi-run suites (release / schedule).
 
 Follow-up workflows during implementation (not design blockers): literature algorithm review, benchmark suite scaffolding, and table→fixture extraction for each oracle.
 

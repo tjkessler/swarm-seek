@@ -36,8 +36,10 @@ pytest --nbmake examples/ -q   # optional; also run in CI
 ```
 
 Coverage must stay at or above **90%** on `swarm_seek`. The `-m "not slow"`
-flag matches CI and skips full-paper literature oracle runs (use
-``pytest tests/ -m slow`` when you need those).
+flag matches CI: literature oracles use a **reduced evaluation budget** smoke
+(still asserting each fixture’s published tolerance). Full paper FE counts and
+multi-run suites are `@pytest.mark.slow` — run them with
+``pytest tests/ -m slow`` before a release.
 
 ## Adding an ABC variant
 

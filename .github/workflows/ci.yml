@@ -11,29 +11,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install package and dev tools
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
-
-      - name: Ruff check
-        run: ruff check src/ tests/
-
-      - name: Ruff format
-        run: ruff format --check src/ tests/
-
-  test:
-    name: test (py${{ matrix.python-version }})
+  # Single matrix job: one pip install per Python, parallel across versions.
+  # Lint / docs / notebooks only on 3.12 to keep wall clock near one install+test.
+  ci:
+    name: ci (py${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -47,13 +28,20 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: pip
 
-      - name: Install package and dev tools
+      - name: Install package
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install -e ".[dev,docs]"
 
-      - name: Run tests with coverage
+      - name: Ruff
+        if: matrix.python-version == '3.12'
+        run: |
+          ruff check src/ tests/
+          ruff format --check src/ tests/
+
+      - name: Tests with coverage
         run: >
           pytest tests/
           -m "not slow"
@@ -61,38 +49,10 @@ jobs:
           --cov-report=term-missing
           --cov-fail-under=90
 
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install package and docs tools
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[docs]"
-
-      - name: Build Sphinx documentation
+      - name: Sphinx
+        if: matrix.python-version == '3.12'
         run: sphinx-build -b html -W --keep-going docs/source docs/build/html
 
-  notebooks:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install package and dev tools
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
-
-      - name: Execute example notebooks
+      - name: Example notebooks
+        if: matrix.python-version == '3.12'
         run: pytest --nbmake examples/ -q
